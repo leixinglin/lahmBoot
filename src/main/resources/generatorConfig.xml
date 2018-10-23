@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <classPathEntry
+            location="F:\mavenWork\MavenRepo\mysql\mysql-connector-java\5.1.36\mysql-connector-java-5.1.36.jar"/>
+    <!-- defaultModelType="flat" 设置复合主键时不单独为主键创建实体 -->
+    <context id="MySql" defaultModelType="flat">
+        <!-- 生成的POJO实现java.io.Serializable接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <!--注释-->
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true" />
+            <!-- 将数据库中表的字段描述信息添加到注释 -->
+            <property name="addRemarkComments" value="true"/>
+            <!-- 注释里不添加日期 -->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+        <!-- 数据库连接 -->
+        <jdbcConnection
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://47.106.211.69:3307/lahm"
+                userId="root"
+                password="leihaha"/>
+
+        <!-- 生成POJO对象，并将类放到com.songguoliang.springboot.entity包下 -->
+        <javaModelGenerator targetPackage="com.lhh.lahm.entity" targetProject="src/main/java"></javaModelGenerator>
+        <!-- 生成mapper xml文件，并放到resources下的mapper文件夹下 -->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources"></sqlMapGenerator>
+
+
+        <!-- 生成mapper xml对应dao接口，放到com.songguoliang.springboot.mapper包下-->
+        <javaClientGenerator targetPackage="com.lhh.lahm.dao" targetProject="src/main/java" type="XMLMAPPER"></javaClientGenerator>
+
+        <!-- table标签可以有多个，至少一个，tableName指定表名，可以使用_和%通配符 -->
+        <!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等-->
+        <table tableName="users" domainObjectName="Users"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+        <table tableName="roles" domainObjectName="Roles"
+               enableCountByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false">
+        </table>
+
+    </context>
+</generatorConfiguration>

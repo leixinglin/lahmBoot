@@ -1,0 +1,137 @@
+server:
+  port: 8088
+  tomcat.uri-encoding: UTF-8
+  #servlet:
+  #context-path: /lahm
+  #address: ip��ַ
+  tomcat:
+    max-threads: 160
+spring:
+  aop:
+    proxy-target-class: true
+  mvc:
+    date-format: yyyy-MM-dd
+  datasource:
+    druid:
+      master:
+        url: jdbc:mysql://47.106.211.69:3307/lahm?useUnicode=true&characterEncoding=utf-8
+        username: root
+        password: leihaha
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 300
+        initialSize: 5
+        maxWait: 60000
+        minIdle: 5
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+
+      slave:
+        url: jdbc:mysql://47.106.211.69:3308/lahm?useUnicode=true&characterEncoding=utf-8
+        username: root
+        password: leihaha
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 300
+        initialSize: 5
+        maxWait: 60000
+        minIdle: 5
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+  cache:
+    type: redis
+    redis:
+      time-to-live: 1
+      cache-null-values: false
+  redis:
+    database: 1
+    host: 47.106.211.69
+    port: 6868
+    password: leihaha
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 1000
+        max-wait: 5000
+        max-idle: 10
+        min-idle: 2
+  rabbitmq:
+    addresses: 47.106.211.69:5672
+    #port: 5672
+    username: admin
+    password: admin
+    virtual-host: /
+    connection-timeout: 15000
+    listener:
+      simple:
+        concurrency: 10  #并发
+        acknowledge-mode: manual  #签收模式
+        max-concurrency: 200 #最大并发
+        prefetch: 200        #限流  某一时间最大接受多少消息
+    publisher-confirms: true
+    publisher-returns: true
+    template:
+      mandatory: true
+  freemarker:
+    settings:
+      template_update_delay: 0
+      number_format: 0.##
+    cache: false
+    charset: UTF-8
+    template-loader-path: classpath:/templates
+    suffix: .ftl
+    request-context-attribute: request
+
+
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+    messages:
+      encoding: UTF-8
+
+mybatis:
+  #mapper-locations: classpath:mybatis/mapper/**Mapper.xml
+  #type-aliases-package: com.lhh.entity
+ # mapper-locations: classpath:mapper/CarMapper.xml,classpath:mapper/CarMessageLogMapper.xml
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.lhh.lahm.entity
+  configuration:
+    use-generated-keys: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+freemarker:
+  #�ļ�·��
+  template-loader-path: classpath:/templates
+  #�رջ��漰ʱˢ��
+  cache: false
+  charset: UTF-8
+  check-template-location: true
+  content-type: text/html
+  expose-request-attributes: true
+  expose-session-attributes: true
+  request-context-attribute: request
+
+  #�Ȳ�����Ч
+#devtools:
+  #restart:
+    #enabled: false
+    #additional-paths: src/main/java
+    #exclude: WEB-INF/**
+
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+logging:
+  config: classpath:log4j2.xml
+

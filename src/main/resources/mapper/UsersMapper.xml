@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhh.lahm.dao.UsersMapper">
+  <resultMap id="UserResultMap" type="com.lhh.lahm.entity.Users">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <!--<result column="role_id" jdbcType="INTEGER" property="roleId" />-->
+    <result column="nickName" jdbcType="VARCHAR" property="nickname" />
+    <association property="roles" javaType="com.lhh.lahm.entity.Roles" >
+      <id column="role_id" property="id"></id>
+      <result column="role_name" property="roleName"/>
+    </association>
+  </resultMap>
+
+  <select id="loginFind" resultMap="UserResultMap">
+      select users.*,roles.role_name from users join roles on users.role_id=roles.id
+      where user_name=#{userName} and user_password=#{passWord}
+  </select>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhh.lahm.dao.CarMapper">
+
+   <!-- <cache type="com.lhh.lahm.cache.MybatisRedisCache" />-->
+
+    <resultMap id="BaseResultMap" type="com.lhh.lahm.entity.Car">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="date" jdbcType="DATE" property="date" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="price" jdbcType="DOUBLE" property="price" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, date, name, price
+  </sql>
+    <select id="findAll"  resultType="Car" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from t_car
+
+        <where>
+            <if test="name!='' and name!=null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="date!=null">
+                and date>=#{date}
+            </if>
+        </where>
+    </select>
+
+    <select id="findById"  resultType="Car" parameterType="java.lang.Integer">
+        select * from t_car where  id=#{id}
+    </select>
+
+    <insert id="saveCar" parameterType="Car" >
+
+    insert  into t_car(date,name,price)values (#{date},#{name},#{price})
+  </insert>
+
+    <insert id="updateCar" parameterType="Car">
+        update  t_car
+        <trim suffix="where id=#{id}" prefix="set" suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="date!=null">
+                date=DATE_FORMAT(#{date},'%Y-%m-%d'),
+            </if>
+            <if test="price!=null">
+                price=#{price}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+      delete from  t_car where id=#{id}
+  </delete>
+</mapper>

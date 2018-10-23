@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhh.lahm.dao.CarMessageLogMapper">
+
+  <cache type="com.lhh.lahm.cache.MybatisRedisCache" />
+  <resultMap id="BaseResultMap" type="com.lhh.lahm.entity.CarMessageLog">
+    <id column="message_id" jdbcType="VARCHAR" property="messageId" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="try_count" jdbcType="INTEGER" property="tryCount" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="next_retry" jdbcType="TIMESTAMP" property="nextRetry" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <insert id="insert" parameterType="CarMessageLog">
+    insert into car_message_log (message_id, message, try_count, 
+      status, next_retry, create_time)
+    values (#{messageId,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 0,
+      0, DATE_ADD(NOW(), interval 1 minute), NOW());
+  </insert>
+
+  <update id="update" parameterType="CarMessageLog">
+    update car_message_log set status=#{status},update_time=NOW() where message_id=#{messageId}
+  </update>
+  
+  <select id="findFailMessage" resultType="CarMessageLog">
+      select * from car_message_log where status=0 and next_retry&lt;=NOW()
+  </select>
+</mapper>
