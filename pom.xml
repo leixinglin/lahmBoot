@@ -143,13 +143,18 @@
             <version>1.4.0</version>
         </dependency>
 
-
-
         <dependency>
             <groupId>net.mingsoft</groupId>
             <artifactId>shiro-freemarker-tags</artifactId>
             <version>0.1</version>
         </dependency>
+
+        <!-- 支持发送邮件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
 
 
 

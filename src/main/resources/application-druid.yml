@@ -81,7 +81,11 @@ spring:
     template-loader-path: classpath:/templates
     suffix: .ftl
     request-context-attribute: request
-
+  mail:
+    host: smtp.qq.com
+    username: 2018288154@qq.com
+    password: tvuflbnqgwxweafh
+    default-encoding: UTF-8
 
 
   jackson:
